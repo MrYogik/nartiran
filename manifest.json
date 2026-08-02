@@ -1,0 +1,12 @@
+{
+  "background_color": "#00caff",
+  "dir": "ltr",
+  "display": "standalone",
+  "name": "Нартиран",
+  "orientation": "any",
+  "scope": "/",
+  "short_name": "Нартиран",
+  "start_url": "/index.html",
+  "theme_color": "#c6bb5c",
+  "lang": "ru"
+}
