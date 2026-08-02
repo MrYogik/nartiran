@@ -1,0 +1,1265 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes" />
+    <title>Нартиран — Официальное приложение</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet" />
+
+    <style>
+        /* ============================================================
+                   CSS Variables & Reset
+                   ============================================================ */
+        :root {
+            --primary: #1B3A5C;
+            --primary-light: #2A5A7A;
+            --secondary: #D4A84B;
+            --secondary-light: #E8C86A;
+            --accent-cream: #E8D5B5;
+            --bg-warm: #F7F5F0;
+            --text-dark: #1A1A2E;
+            --text-muted: #5A5A72;
+            --white: #FFFFFF;
+            --shadow: 0 8px 32px rgba(27, 58, 92, 0.12);
+            --radius: 16px;
+            --radius-sm: 10px;
+            --transition: 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+            --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            --font-heading: 'Playfair Display', Georgia, serif;
+            --max-width: 880px;
+            --tab-height: 64px;
+        }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background: var(--bg-warm);
+            color: var(--text-dark);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 16px;
+            padding-top: 20px;
+            background-image:
+                radial-gradient(ellipse at 20% 50%, rgba(212, 168, 75, 0.06) 0%, transparent 60%),
+                radial-gradient(ellipse at 80% 20%, rgba(27, 58, 92, 0.04) 0%, transparent 50%);
+        }
+
+        /* ============================================================
+                   App Container
+                   ============================================================ */
+        #app {
+            max-width: var(--max-width);
+            width: 100%;
+            background: var(--white);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            min-height: 92vh;
+            max-height: 98vh;
+            position: relative;
+            backdrop-filter: blur(2px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+        }
+
+        /* ============================================================
+                   Header
+                   ============================================================ */
+        .app-header {
+            background: var(--primary);
+            padding: 18px 24px 14px;
+            color: var(--white);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 6px 12px;
+            border-bottom: 3px solid var(--secondary);
+            flex-shrink: 0;
+        }
+
+        .app-header .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .app-header .brand-icon {
+            font-size: 28px;
+            line-height: 1;
+        }
+
+        .app-header h1 {
+            font-family: var(--font-heading);
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            background: linear-gradient(135deg, #fff 60%, var(--secondary-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .app-header .subtitle {
+            font-size: 0.7rem;
+            font-weight: 400;
+            opacity: 0.8;
+            letter-spacing: 0.3px;
+            -webkit-text-fill-color: rgba(255, 255, 255, 0.8);
+            background: none;
+        }
+
+        .app-header .eu-badge {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.65rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(4px);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            -webkit-text-fill-color: #fff;
+        }
+
+        .app-header .eu-badge span {
+            font-size: 0.9rem;
+        }
+
+        /* ============================================================
+                   Tab Navigation
+                   ============================================================ */
+        .tab-nav {
+            display: flex;
+            background: var(--bg-warm);
+            border-bottom: 1px solid rgba(27, 58, 92, 0.08);
+            flex-shrink: 0;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            padding: 0 4px;
+            gap: 2px;
+            min-height: var(--tab-height);
+        }
+
+        .tab-btn {
+            flex: 1;
+            border: none;
+            background: transparent;
+            padding: 14px 8px 12px;
+            font-family: var(--font-body);
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: var(--transition);
+            position: relative;
+            border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2px;
+            letter-spacing: 0.2px;
+            -webkit-tap-highlight-color: transparent;
+            user-select: none;
+        }
+
+        .tab-btn .tab-icon {
+            font-size: 1.2rem;
+            line-height: 1;
+        }
+
+        .tab-btn .tab-label {
+            font-size: 0.7rem;
+            font-weight: 500;
+        }
+
+        .tab-btn::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%) scaleX(0);
+            width: 60%;
+            height: 3px;
+            background: var(--secondary);
+            border-radius: 3px 3px 0 0;
+            transition: var(--transition);
+        }
+
+        .tab-btn:hover {
+            color: var(--primary);
+            background: rgba(27, 58, 92, 0.04);
+        }
+
+        .tab-btn:active {
+            transform: scale(0.97);
+        }
+
+        .tab-btn.active {
+            color: var(--primary);
+            background: var(--white);
+        }
+
+        .tab-btn.active::after {
+            transform: translateX(-50%) scaleX(1);
+        }
+
+        /* ============================================================
+                   Tab Content
+                   ============================================================ */
+        .tab-content-wrapper {
+            flex: 1;
+            overflow-y: auto;
+            overflow-x: hidden;
+            padding: 20px 24px 24px;
+            background: var(--white);
+            scroll-behavior: smooth;
+        }
+
+        .tab-content-wrapper::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        .tab-content-wrapper::-webkit-scrollbar-track {
+            background: var(--bg-warm);
+        }
+
+        .tab-content-wrapper::-webkit-scrollbar-thumb {
+            background: var(--secondary);
+            border-radius: 10px;
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeSlideIn 0.4s ease forwards;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeSlideIn {
+            0% {
+                opacity: 0;
+                transform: translateY(12px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ============================================================
+                   Home Tab
+                   ============================================================ */
+        .hero-section {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-bottom: 28px;
+            align-items: center;
+            background: linear-gradient(135deg, var(--bg-warm) 0%, var(--white) 100%);
+            padding: 20px 20px 18px;
+            border-radius: var(--radius);
+            border: 1px solid rgba(212, 168, 75, 0.15);
+        }
+
+        .hero-flags {
+            display: flex;
+            gap: 16px;
+            align-items: center;
+            flex-wrap: wrap;
+            flex: 0 0 auto;
+        }
+
+        .hero-flags .flag-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            font-size: 0.6rem;
+            font-weight: 500;
+            color: var(--text-muted);
+            letter-spacing: 0.3px;
+        }
+
+        .hero-flags .flag-item .img-placeholder {
+            width: 72px;
+            height: 48px;
+            border-radius: 6px;
+            background: var(--bg-warm);
+            border: 1px solid rgba(27, 58, 92, 0.12);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.55rem;
+            color: var(--text-muted);
+            overflow: hidden;
+            transition: var(--transition);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+        }
+
+        .hero-flags .flag-item .img-placeholder img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .hero-flags .flag-item .img-placeholder.coat {
+            border-radius: 50%;
+            width: 56px;
+            height: 56px;
+            border: 2px solid var(--secondary);
+        }
+
+        .hero-text {
+            flex: 1;
+            min-width: 180px;
+        }
+
+        .hero-text h2 {
+            font-family: var(--font-heading);
+            font-size: 1.25rem;
+            color: var(--primary);
+            margin-bottom: 4px;
+        }
+
+        .hero-text .tagline {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            line-height: 1.5;
+            margin-bottom: 8px;
+        }
+
+        .hero-text .tagline strong {
+            color: var(--primary);
+        }
+
+        .hero-badges {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px 10px;
+            margin-top: 6px;
+        }
+
+        .hero-badges .badge {
+            background: var(--bg-warm);
+            padding: 2px 12px;
+            border-radius: 20px;
+            font-size: 0.65rem;
+            font-weight: 500;
+            color: var(--primary-light);
+            border: 1px solid rgba(27, 58, 92, 0.06);
+        }
+
+        /* ---- News ---- */
+        .news-section {
+            margin-top: 8px;
+        }
+
+        .news-section .section-title {
+            font-family: var(--font-heading);
+            font-size: 1.1rem;
+            color: var(--primary);
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .news-section .section-title .live-dot {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background: #22c55e;
+            border-radius: 50%;
+            animation: pulse-dot 1.6s ease-in-out infinite;
+        }
+
+        @keyframes pulse-dot {
+            0%,
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+            50% {
+                opacity: 0.4;
+                transform: scale(0.8);
+            }
+        }
+
+        .news-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .news-item {
+            background: var(--bg-warm);
+            padding: 14px 18px;
+            border-radius: var(--radius-sm);
+            border-left: 4px solid var(--secondary);
+            transition: var(--transition);
+            cursor: default;
+        }
+
+        .news-item:hover {
+            background: #f0ebe0;
+            transform: translateX(4px);
+        }
+
+        .news-item .news-title {
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: var(--primary);
+            margin-bottom: 2px;
+        }
+
+        .news-item .news-meta {
+            display: flex;
+            gap: 12px;
+            font-size: 0.65rem;
+            color: var(--text-muted);
+        }
+
+        .news-item .news-meta .news-date {
+            font-weight: 400;
+        }
+
+        .news-item .news-meta .news-source {
+            font-weight: 500;
+            color: var(--secondary);
+        }
+
+        .news-loading {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            padding: 24px 0;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+
+        .news-loading .spinner {
+            width: 22px;
+            height: 22px;
+            border: 3px solid var(--bg-warm);
+            border-top-color: var(--secondary);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .news-error {
+            padding: 16px;
+            background: #fef2f2;
+            border-radius: var(--radius-sm);
+            color: #b91c1c;
+            font-size: 0.85rem;
+            text-align: center;
+        }
+
+        .news-retry-btn {
+            margin-top: 8px;
+            background: var(--primary);
+            color: #fff;
+            border: none;
+            padding: 6px 18px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .news-retry-btn:hover {
+            background: var(--primary-light);
+        }
+
+        /* ============================================================
+                   History Tab
+                   ============================================================ */
+        .history-timeline {
+            position: relative;
+            padding-left: 28px;
+        }
+
+        .history-timeline::before {
+            content: '';
+            position: absolute;
+            left: 6px;
+            top: 4px;
+            bottom: 4px;
+            width: 3px;
+            background: linear-gradient(to bottom, var(--secondary), var(--primary-light));
+            border-radius: 4px;
+            opacity: 0.4;
+        }
+
+        .history-event {
+            margin-bottom: 28px;
+            position: relative;
+            padding-left: 16px;
+        }
+
+        .history-event::before {
+            content: '';
+            position: absolute;
+            left: -22px;
+            top: 6px;
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: var(--secondary);
+            border: 3px solid var(--white);
+            box-shadow: 0 0 0 2px var(--secondary);
+        }
+
+        .history-event .event-year {
+            font-family: var(--font-heading);
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--primary);
+            line-height: 1.2;
+        }
+
+        .history-event .event-title {
+            font-weight: 600;
+            font-size: 0.95rem;
+            color: var(--text-dark);
+            margin: 2px 0 4px;
+        }
+
+        .history-event .event-desc {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+
+        .history-event .event-desc strong {
+            color: var(--primary);
+        }
+
+        /* ============================================================
+                   Location Tab
+                   ============================================================ */
+        .location-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        @media (max-width: 600px) {
+            .location-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .location-info {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .location-info h2 {
+            font-family: var(--font-heading);
+            font-size: 1.2rem;
+            color: var(--primary);
+        }
+
+        .location-info p {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            line-height: 1.7;
+        }
+
+        .location-info .highlight-list {
+            list-style: none;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .location-info .highlight-list li {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.85rem;
+            color: var(--text-dark);
+            padding: 6px 12px;
+            background: var(--bg-warm);
+            border-radius: 8px;
+        }
+
+        .location-info .highlight-list li .hl-icon {
+            font-size: 1.1rem;
+        }
+
+        .location-map {
+            background: var(--bg-warm);
+            border-radius: var(--radius);
+            overflow: hidden;
+            border: 1px solid rgba(27, 58, 92, 0.08);
+            min-height: 200px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .location-map .map-placeholder {
+            width: 100%;
+            height: 220px;
+            background: #dce3eb;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .location-map .map-placeholder img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .location-map .map-placeholder .map-label {
+            position: absolute;
+            bottom: 12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(4px);
+            color: #fff;
+            padding: 4px 16px;
+            border-radius: 20px;
+            font-size: 0.65rem;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            white-space: nowrap;
+        }
+
+        .location-map .map-caption {
+            padding: 10px 0 4px;
+            font-size: 0.7rem;
+            color: var(--text-muted);
+        }
+
+        /* ============================================================
+                   Footer
+                   ============================================================ */
+        .app-footer {
+            background: var(--bg-warm);
+            padding: 12px 24px;
+            text-align: center;
+            font-size: 0.65rem;
+            color: var(--text-muted);
+            border-top: 1px solid rgba(27, 58, 92, 0.06);
+            flex-shrink: 0;
+            letter-spacing: 0.2px;
+        }
+
+        .app-footer a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .app-footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* ============================================================
+                   Responsive
+                   ============================================================ */
+        @media (max-width: 640px) {
+            body {
+                padding: 8px;
+                padding-top: 10px;
+            }
+
+            #app {
+                min-height: 96vh;
+                max-height: 99vh;
+                border-radius: 12px;
+            }
+
+            .app-header {
+                padding: 14px 16px 10px;
+            }
+
+            .app-header h1 {
+                font-size: 1.2rem;
+            }
+
+            .app-header .subtitle {
+                font-size: 0.6rem;
+            }
+
+            .app-header .eu-badge {
+                font-size: 0.55rem;
+                padding: 2px 10px;
+            }
+
+            .tab-btn {
+                padding: 10px 4px 8px;
+                font-size: 0.7rem;
+            }
+
+            .tab-btn .tab-label {
+                font-size: 0.6rem;
+            }
+
+            .tab-btn .tab-icon {
+                font-size: 1rem;
+            }
+
+            .tab-content-wrapper {
+                padding: 14px 14px 16px;
+            }
+
+            .hero-section {
+                padding: 14px;
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .hero-flags {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .hero-flags .flag-item .img-placeholder {
+                width: 60px;
+                height: 40px;
+            }
+
+            .hero-flags .flag-item .img-placeholder.coat {
+                width: 48px;
+                height: 48px;
+            }
+
+            .hero-text h2 {
+                font-size: 1.05rem;
+            }
+
+            .news-item {
+                padding: 12px 14px;
+            }
+
+            .history-timeline {
+                padding-left: 20px;
+            }
+
+            .history-event {
+                padding-left: 12px;
+            }
+
+            .history-event::before {
+                left: -18px;
+                width: 12px;
+                height: 12px;
+            }
+
+            .location-map .map-placeholder {
+                height: 160px;
+            }
+        }
+
+        @media (max-width: 400px) {
+            .app-header .brand-icon {
+                font-size: 22px;
+            }
+
+            .app-header h1 {
+                font-size: 1rem;
+            }
+
+            .tab-btn .tab-label {
+                font-size: 0.5rem;
+            }
+
+            .tab-btn .tab-icon {
+                font-size: 0.9rem;
+            }
+
+            .hero-flags .flag-item .img-placeholder {
+                width: 50px;
+                height: 34px;
+            }
+
+            .hero-flags .flag-item .img-placeholder.coat {
+                width: 40px;
+                height: 40px;
+            }
+        }
+
+        /* small helper for landscape phones */
+        @media (max-height: 500px) and (orientation: landscape) {
+            #app {
+                min-height: 90vh;
+                max-height: 96vh;
+            }
+
+            .app-header {
+                padding: 10px 16px 8px;
+            }
+
+            .app-header h1 {
+                font-size: 1rem;
+            }
+
+            .tab-btn {
+                padding: 6px 4px 4px;
+                min-height: 44px;
+            }
+
+            .tab-content-wrapper {
+                padding: 10px 14px 12px;
+            }
+
+            .hero-section {
+                padding: 10px;
+                margin-bottom: 16px;
+            }
+
+            .news-item {
+                padding: 8px 12px;
+            }
+
+            .history-event {
+                margin-bottom: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ============================================================
+    APP
+    ============================================================ -->
+    <div id="app">
+
+        <!-- HEADER -->
+        <header class="app-header">
+            <div class="brand">
+                <span class="brand-icon">🏝️</span>
+                <div>
+                    <h1>Нартиран</h1>
+                    <div class="subtitle">Сердце Атлантики · Член ЕС</div>
+                </div>
+            </div>
+            <div class="eu-badge">
+                <span>🇪🇺</span> ЕвроСоюз
+            </div>
+        </header>
+
+        <!-- TAB NAVIGATION -->
+        <nav class="tab-nav" role="tablist">
+            <button class="tab-btn active" data-tab="home" role="tab" aria-selected="true">
+                <span class="tab-icon">🏠</span>
+                <span class="tab-label">Главная</span>
+            </button>
+            <button class="tab-btn" data-tab="history" role="tab" aria-selected="false">
+                <span class="tab-icon">📜</span>
+                <span class="tab-label">История</span>
+            </button>
+            <button class="tab-btn" data-tab="location" role="tab" aria-selected="false">
+                <span class="tab-icon">🌍</span>
+                <span class="tab-label">Расположение</span>
+            </button>
+        </nav>
+
+        <!-- TAB CONTENT -->
+        <div class="tab-content-wrapper">
+
+            <!-- ========== HOME ========== -->
+            <section id="home" class="tab-content active" role="tabpanel">
+
+                <div class="hero-section">
+                    <div class="hero-flags">
+                        <div class="flag-item">
+                            <div class="img-placeholder" id="flag-container">
+                                <!-- флаг из файла: images/flag.png -->
+                                <img src="images/flag.jpg" alt="Флаг Нартирана" onerror="this.style.display='none'; this.parentElement.textContent='🇳🇷 Флаг'" />
+                            </div>
+                            <span>Флаг</span>
+                        </div>
+                        <div class="flag-item">
+                            <div class="img-placeholder coat" id="coat-container">
+                                <!-- герб из файла: images/coat_of_arms.png -->
+                                <img src="images/coat_of_arms.jpg" alt="Герб Нартирана" onerror="this.style.display='none'; this.parentElement.textContent='⚜️ Герб'" />
+                            </div>
+                            <span>Герб</span>
+                        </div>
+                    </div>
+                    <div class="hero-text">
+                        <h2>Добро пожаловать в Нартиран!</h2>
+                        <p class="tagline">
+                            <strong>Нартиран</strong> — новая страна в Европейском Союзе,
+                            расположенная на живописном острове к западу от Африки.
+                            Мы ценим все народы и их традиции, открыты для гостей со всего мира.
+                        </p>
+                        <div class="hero-badges">
+                            <span class="badge">🇪🇺 Член ЕС</span>
+                            <span class="badge">🌐 Без ограничений</span>
+                            <span class="badge">🏷️ Западные бренды</span>
+                            <span class="badge">🍞 Русские продукты</span>
+                            <span class="badge">☀️ Тёплый климат</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- NEWS -->
+                <div class="news-section">
+                    <div class="section-title">
+                        <span>📰 Новости</span>
+                        <span class="live-dot"></span>
+                    </div>
+                    <div id="news-container">
+                        <div class="news-loading">
+                            <div class="spinner"></div>
+                            <span>Загрузка новостей...</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ========== HISTORY ========== -->
+            <section id="history" class="tab-content" role="tabpanel">
+                <h2 style="font-family:var(--font-heading);font-size:1.3rem;color:var(--primary);margin-bottom:18px;">
+                    📜 История Нартирана
+                </h2>
+                <div class="history-timeline">
+
+                    <div class="history-event">
+                        <div class="event-year">1920</div>
+                        <div class="event-title">Независимость от Франции</div>
+                        <div class="event-desc">
+                            Нартиран провозглашает независимость после долгой борьбы за самоопределение.
+                            Страна получает международное признание и начинает строить собственное государство.
+                        </div>
+                    </div>
+
+                    <div class="history-event">
+                        <div class="event-year">1927</div>
+                        <div class="event-title">Британская оккупация</div>
+                        <div class="event-desc">
+                            Британия захватывает остров, но Нартиран <strong>остаётся частично признанным</strong>
+                            государством. Местное население сохраняет свою культуру и язык.
+                        </div>
+                    </div>
+
+                    <div class="history-event">
+                        <div class="event-year">1957</div>
+                        <div class="event-title">Путь в Европу</div>
+                        <div class="event-desc">
+                            Нартиран начинает активное сотрудничество с европейскими странами,
+                            что закладывает основу для будущего вступления в Европейский Союз.
+                        </div>
+                    </div>
+
+                    <div class="history-event">
+                        <div class="event-year">1974</div>
+                        <div class="event-title">Окончательная независимость</div>
+                        <div class="event-desc">
+                            <strong>Королева Елизавета II</strong> подписывает акт о независимости Нартирана.
+                            Страна становится полностью суверенным государством.
+                        </div>
+                    </div>
+
+                    <div class="history-event">
+                        <div class="event-year">2004</div>
+                        <div class="event-title">Вступление в Европейский Союз</div>
+                        <div class="event-desc">
+                            Нартиран официально становится членом ЕС, открывая новые горизонты для
+                            экономики, культуры и свободного перемещения граждан.
+                        </div>
+                    </div>
+
+                    <div class="history-event">
+                        <div class="event-year">Сегодня</div>
+                        <div class="event-title">Нартиран — открытая страна</div>
+                        <div class="event-desc">
+                            Современный Нартиран — это <strong>мост между культурами</strong>.
+                            Здесь нет ограничений в интернете, работают все западные бренды,
+                            а в магазинах можно найти любимые русские продукты.
+                            Мы дружелюбны к людям из всех стран и гордимся своим многообразием.
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+
+            <!-- ========== LOCATION ========== -->
+            <section id="location" class="tab-content" role="tabpanel">
+                <div class="location-grid">
+
+                    <div class="location-info">
+                        <h2>📍 Где находится Нартиран?</h2>
+                        <p>
+                            Нартиран — островное государство, расположенное в <strong>Атлантическом океане</strong>,
+                            к западу от побережья Африки. Благодаря своему географическому положению,
+                            страна наслаждается <strong>тёплым климатом</strong> круглый год.
+                        </p>
+                        <ul class="highlight-list">
+                            <li><span class="hl-icon">🌊</span> Запад Африки, Атлантика</li>
+                            <li><span class="hl-icon">☀️</span> Тёплый климат, +25°C в среднем</li>
+                            <li><span class="hl-icon">🏖️</span> Песчаные пляжи и зелёные холмы</li>
+                            <li><span class="hl-icon">✈️</span> Прямые рейсы из Европы и Африки</li>
+                            <li><span class="hl-icon">🕊️</span> Страна мира и гостеприимства</li>
+                        </ul>
+                    </div>
+
+                    <div class="location-map">
+                        <div class="map-placeholder" id="map-container">
+                            <!-- карта из файла: images/map.png -->
+                            <img src="images/map.jpg" alt="Карта Нартирана" onerror="this.style.display='none'; this.parentElement.innerHTML='<span style=\'font-size:2rem;opacity:0.3;\'>🗺️</span><br><span style=\'font-size:0.8rem;color:var(--text-muted);\'>Карта острова</span><div class=\'map-label\'>Нартиран · Атлантика</div>'" />
+                            <div class="map-label">Нартиран · Атлантический океан</div>
+                        </div>
+                        <div class="map-caption">🗺️ Остров Нартиран — жемчужина Атлантики</div>
+                    </div>
+
+                </div>
+            </section>
+
+        </div>
+
+        <!-- FOOTER -->
+        <footer class="app-footer">
+            © 2026 Нартиран · Официальное приложение ·
+            <a href="#" onclick="return false;">О стране</a> ·
+            <a href="#" onclick="return false;">Контакты</a>
+        </footer>
+
+    </div>
+
+    <!-- ============================================================
+    JAVASCRIPT
+    ============================================================ -->
+    <script>
+        (function() {
+            'use strict';
+
+            // ----- DOM refs -----
+            const tabs = document.querySelectorAll('.tab-btn');
+            const contents = {
+                home: document.getElementById('home'),
+                history: document.getElementById('history'),
+                location: document.getElementById('location'),
+            };
+            const newsContainer = document.getElementById('news-container');
+
+            // ----- Tab switching -----
+            function switchTab(tabId) {
+                // update buttons
+                tabs.forEach(btn => {
+                    const isActive = btn.dataset.tab === tabId;
+                    btn.classList.toggle('active', isActive);
+                    btn.setAttribute('aria-selected', isActive ? 'true' : 'false');
+                });
+
+                // update panels
+                Object.keys(contents).forEach(key => {
+                    contents[key].classList.toggle('active', key === tabId);
+                });
+
+                // scroll to top of content
+                const wrapper = document.querySelector('.tab-content-wrapper');
+                if (wrapper) wrapper.scrollTop = 0;
+            }
+
+            tabs.forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    const tabId = this.dataset.tab;
+                    if (tabId) switchTab(tabId);
+                });
+
+                // touch feedback
+                btn.addEventListener('touchstart', function() {
+                    this.style.transform = 'scale(0.97)';
+                }, { passive: true });
+                btn.addEventListener('touchend', function() {
+                    this.style.transform = '';
+                }, { passive: true });
+            });
+
+            // ----- News: mock server fetch -----
+            const MOCK_NEWS = [{
+                id: 1,
+                title: 'Нартиран присоединился к программе Erasmus+',
+                date: '28 июля 2026',
+                source: 'Еврокомиссия'
+            }, {
+                id: 2,
+                title: 'В столице Нартирана открылся новый культурный центр',
+                date: '22 июля 2026',
+                source: 'Культура.Нартиран'
+            }, {
+                id: 3,
+                title: 'Нартиран признан самым гостеприимным государством ЕС',
+                date: '15 июля 2026',
+                source: 'Tourism Index'
+            }, {
+                id: 4,
+                title: 'Российские продукты появились в крупнейших сетях Нартирана',
+                date: '8 июля 2026',
+                source: 'Торговый вестник'
+            }, {
+                id: 5,
+                title: 'Нартиран внедряет инновационные технологии в образование',
+                date: '1 июля 2026',
+                source: 'Образование.Нартиран'
+            }];
+
+            // Simulate server delay (300–600ms)
+            function fetchNewsFromServer() {
+                return new Promise((resolve, reject) => {
+                    const delay = 300 + Math.random() * 300;
+                    setTimeout(() => {
+                        // 90% success, 10% error to demonstrate error handling
+                        if (Math.random() < 0.9) {
+                            resolve(MOCK_NEWS);
+                        } else {
+                            reject(new Error('Ошибка соединения с сервером'));
+                        }
+                    }, delay);
+                });
+            }
+
+            function renderNews(newsArray) {
+                if (!newsArray || newsArray.length === 0) {
+                    newsContainer.innerHTML = `
+                            <div style="padding:16px;text-align:center;color:var(--text-muted);font-size:0.85rem;">
+                                📭 Новостей пока нет
+                            </div>
+                        `;
+                    return;
+                }
+
+                let html = '<div class="news-list">';
+                newsArray.forEach(item => {
+                    html += `
+                            <div class="news-item">
+                                <div class="news-title">${escapeHtml(item.title)}</div>
+                                <div class="news-meta">
+                                    <span class="news-date">📅 ${escapeHtml(item.date)}</span>
+                                    <span class="news-source">📌 ${escapeHtml(item.source)}</span>
+                                </div>
+                            </div>
+                        `;
+                });
+                html += '</div>';
+                newsContainer.innerHTML = html;
+            }
+
+            function renderError(message) {
+                newsContainer.innerHTML = `
+                        <div class="news-error">
+                            ⚠️ ${escapeHtml(message)}
+                            <br>
+                            <button class="news-retry-btn" id="news-retry">🔄 Попробовать снова</button>
+                        </div>
+                    `;
+                const retryBtn = document.getElementById('news-retry');
+                if (retryBtn) {
+                    retryBtn.addEventListener('click', loadNews);
+                }
+            }
+
+            function renderLoading() {
+                newsContainer.innerHTML = `
+                        <div class="news-loading">
+                            <div class="spinner"></div>
+                            <span>Загрузка новостей...</span>
+                        </div>
+                    `;
+            }
+
+            // Simple escape to prevent XSS
+            function escapeHtml(text) {
+                const div = document.createElement('div');
+                div.textContent = text;
+                return div.innerHTML;
+            }
+
+            async function loadNews() {
+                renderLoading();
+                try {
+                    const data = await fetchNewsFromServer();
+                    renderNews(data);
+                } catch (err) {
+                    renderError(err.message || 'Не удалось загрузить новости');
+                }
+            }
+
+            // ----- Handle image load errors gracefully (already handled inline with onerror) -----
+            // but we also want to show a fallback if images don't load.
+
+            // ----- Init -----
+            loadNews();
+
+            // Expose switchTab for debugging if needed
+            window.__switchTab = switchTab;
+
+            // ----- Handle visibility change to refresh news when user comes back (optional) -----
+            document.addEventListener('visibilitychange', function() {
+                if (!document.hidden) {
+                    // optionally refresh news if tab is home and visible
+                    const homeActive = document.getElementById('home').classList.contains('active');
+                    if (homeActive) {
+                        // refresh only if older than 2 minutes? we'll keep it simple - just reload
+                        // but we don't want to spam, so we check if we have news already
+                        const hasNews = newsContainer.querySelector('.news-item');
+                        if (!hasNews) {
+                            loadNews();
+                        }
+                    }
+                }
+            });
+
+            console.log('🏝️ Нартиран — приложение загружено!');
+            console.log('📌 Для замены изображений положите файлы:');
+            console.log('   images/flag.png');
+            console.log('   images/coat_of_arms.png');
+            console.log('   images/map.png');
+
+        })();
+    </script>
+
+</body>
+</html>
